@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "stonks"
+version = "0.1.0"
+description = ""
+authors = ["Mateusz Stankiewicz <mateusz@mateusz.at>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+dearpygui = "^1.9.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
