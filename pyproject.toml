@@ -8,6 +8,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 dearpygui = "^1.9.1"
+structlog = "^23.1.0"
 
 
 [tool.poetry.group.dev.dependencies]
