@@ -1,6 +1,7 @@
 import dearpygui.dearpygui as dpg
-
 import structlog
+
+from xtbengine.wrapper import XtbApi
 
 logger = structlog.stdlib.get_logger()
 
@@ -8,6 +9,7 @@ logger = structlog.stdlib.get_logger()
 class MainWindow:
     def __init__(self):
         self.WINDOW_WIDTH, self.WINDOW_HEIGHT = 1250, 950
+        self.api = XtbApi()
 
         logger.info("Starting GUI")
         self._init_window()
