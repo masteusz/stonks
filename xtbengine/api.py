@@ -1,6 +1,6 @@
 import structlog
 
-from xtbengine.commands import base_command
+from xtbengine.commands import login_command, margin_level_command
 from xtbengine.xAPIConnector import JsonSocket
 
 logger = structlog.stdlib.get_logger()
@@ -31,13 +31,24 @@ class XtbApi(JsonSocket):
                 f"Cannot connect to {self.address}:{self.port} after {API_MAX_CONN_TRIES} retries"
             )
 
-    def execute(self, dictionary):
-        self._sendObj(dictionary)
+    def execute(self, command):
+        self._send_obj(command)
         return self._read_obj()
 
-    def execute_command(self, command_name, arguments=None):
-        return self.execute(base_command(command_name, arguments))
+    def login(self):
+        logger.info("Logging in")
+        return self.execute(login_command(user_id=self.user, password=self.password))
+
+    def logout(self):
+        logger.info("Logging out")
+
+    def get_margins(self):
+        logger.info("Getting margin info")
+        return self.execute(margin_level_command())
 
 
 if __name__ == "__main__":
     api = XtbApi(user=12345, password="abcde", demo=True)
+    api.login()
+    api.get_margins()
+    api.logout()

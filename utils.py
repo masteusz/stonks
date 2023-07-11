@@ -27,7 +27,7 @@ class LogLevel(str, Enum):
 
 
 def configure_logging() -> None:
-    # based on this junk: https://gist.github.com/nymous/f138c7f06062b7c43c060bf03759c29e
+    # based on: https://gist.github.com/nymous/f138c7f06062b7c43c060bf03759c29e
 
     log_level = logging.getLevelName(LogLevel.DEBUG)
     coloring_enabled = True
