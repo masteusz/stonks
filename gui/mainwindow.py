@@ -1,7 +1,7 @@
 import dearpygui.dearpygui as dpg
 import structlog
 
-from xtbengine.wrapper import XtbApi
+from xtbengine.api import XtbApi
 
 logger = structlog.stdlib.get_logger()
 
