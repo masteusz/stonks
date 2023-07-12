@@ -1,7 +1,8 @@
 import structlog
 
-from xtbengine.commands import login_command, margin_level_command
+from xtbengine.commands import login_command, margin_level_command, logout_command
 from xtbengine.xAPIConnector import JsonSocket
+from utils.env import Env
 
 logger = structlog.stdlib.get_logger()
 
@@ -27,28 +28,34 @@ class XtbApi(JsonSocket):
 
         super(XtbApi, self).__init__(self.addr, self.app_port, encrypt)
         if not self.connect():
-            raise Exception(
-                f"Cannot connect to {self.address}:{self.port} after {API_MAX_CONN_TRIES} retries"
-            )
+            raise Exception(f"Cannot connect to {self.address}:{self.port} after {API_MAX_CONN_TRIES} retries")
 
     def execute(self, command):
         self._send_obj(command)
         return self._read_obj()
 
-    def login(self):
+    def login(self) -> str:
         logger.info("Logging in")
-        return self.execute(login_command(user_id=self.user, password=self.password))
+        res = self.execute(login_command(user_id=self.user, password=self.password))
+        if res["status"]:
+            return res["streamSessionId"]
+        return ""
 
-    def logout(self):
+    def logout(self) -> bool:
         logger.info("Logging out")
+        res = self.execute(logout_command())
+        return res.get("status", None)
 
-    def get_margins(self):
+    def get_margins(self) -> dict:
         logger.info("Getting margin info")
-        return self.execute(margin_level_command())
+        res = self.execute(margin_level_command())
+        if res["status"]:
+            return res["returnData"]
+        return {}
 
 
 if __name__ == "__main__":
-    api = XtbApi(user=12345, password="abcde", demo=True)
+    api = XtbApi(user=Env.XTB_USER_ID, password=Env.XTB_PASSWORD, demo=True)
     api.login()
     api.get_margins()
     api.logout()

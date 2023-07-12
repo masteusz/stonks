@@ -16,4 +16,4 @@ def logout_command():
 
 
 def margin_level_command():
-    return base_command('getMarginLevel')
+    return base_command("getMarginLevel")

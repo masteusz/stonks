@@ -37,7 +37,7 @@ class JsonSocket(object):
                 logger.error("SockThread Error: %s" % msg)
                 time.sleep(0.25)
                 continue
-            logger.info("Socket connected")
+            logger.debug("Socket connected")
             return True
         return False
 
@@ -70,7 +70,7 @@ class JsonSocket(object):
                     break
             except ValueError:
                 continue
-        logger.info("Received: " + str(resp))
+        logger.debug("Received: " + str(resp))
         return resp
 
     def _read_obj(self):
